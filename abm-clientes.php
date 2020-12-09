@@ -1,8 +1,8 @@
 <?php
 
-    if(file_exists("archivo.txt")){
+    if(file_exists("clientes.txt")){
         //leer el archivo, el contenido es un json
-        $strJson = file_get_contents("archivo.txt");
+        $strJson = file_get_contents("clientes.txt");
         //guardar en el array de clientes ese json decodificado
         $aClientes = json_decode($strJson, true);
     } else {
@@ -15,12 +15,12 @@
         //eliminar la posicion deseada en el array, invertigar unset
         //pasar el array a json
         //actualizar el archivo con este nuevo json
-        if(file_exists("archivos/" . $aClientes[$id]["imagen"])){
-            unlink("archivos/" . $aClientes[$id]["imagen"]);
+        if(file_exists("imagenes/" . $aClientes[$id]["imagen"])){
+            unlink("imagenes/" . $aClientes[$id]["imagen"]);
         }
         unset($aClientes[$id]);
         $strJson = json_encode($aClientes);
-        file_put_contents("archivo.txt", $strJson);
+        file_put_contents("clientes.txt", $strJson);
     }
 
     if($_POST){
@@ -36,12 +36,12 @@
             $nombreArchivo = $_FILES["archivo"]["name"];
             $extension = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
             $nombreImagen = $nombreAleatorio . "." . $extension;
-            move_uploaded_file($archivo_tmp, "archivos/$nombreImagen");
+            move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen");
         }
         
-        if($nombreImagen != "" && $aClientes[$id]["imagen"] != ""){
+        if($nombreImagen != "" && isset($aClientes[$id]["imagen"]) && $aClientes[$id]["imagen"] != ""){
             //si se sube una imagen y hau una imagen previa entonces eliminarla,
-            unlink("archivos/" . $aClientes[$id]["imagen"]);
+            unlink("imagenes/" . $aClientes[$id]["imagen"]);
         }
         if($nombreImagen == ""){
             //si la persona no sube ninguna imagen, conservar la imagen que tenia previamente
@@ -70,7 +70,7 @@
         //convertir array en json
         $strJson = json_encode($aClientes);
         //Guardar el json en un archivo archivo.txt
-        file_put_contents("archivo.txt", $strJson); 
+        file_put_contents("clientes.txt", $strJson); 
     }
 
 ?>
@@ -84,37 +84,38 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
     <div class="container">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-12 text-center">
-                <h1><a href="abm-clientes.php" class="text-dark">Registro de clientes</a></h1>
+                <h1><a href="abm-clientes.php" class="text-dark text-center">Registro de clientes</a></h1>
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-6">
+            <div class="col 12 col-sm-6">
                 <div class="form">
                     <form action="" method="post" enctype="multipart/form-data">
                         <div>
                             <label for="txtDNI">DNI:</label><br>
                             <input type="number" name="txtDNI" id="txtDNI" required style="width:100%" class="border" 
-                                    value="<?php echo isset($_GET["id"]) ? $aClientes[$_GET["id"]]["dni"] : "" ?>">
+                                    value="<?php echo isset($_GET["id"]) && !isset($_GET["do"]) ? $aClientes[$_GET["id"]]["dni"] : "" ?>">
                         </div>
                         <div>
                             <label for="txtNombre">Nombre:</label><br>
                             <input type="text" name="txtNombre" id="txtNombre" required style="width:100%" class="border"
-                                    value="<?php echo isset($_GET["id"]) ? $aClientes[$_GET["id"]]["nombre"] : "" ?>">
+                                    value="<?php echo isset($_GET["id"]) && !isset($_GET["do"]) ? $aClientes[$_GET["id"]]["nombre"] : "" ?>">
                         </div>
                         <div>
                             <label for="txtTelefono">Telefono:</label><br>
                             <input type="tel" name="txtTelefono" id="txtTelefono" required style="width:100%" class="border"
-                                    value="<?php echo isset($_GET["id"]) ? $aClientes[$_GET["id"]]["telefono"] : "" ?>">
+                                    value="<?php echo isset($_GET["id"]) && !isset($_GET["do"]) ? $aClientes[$_GET["id"]]["telefono"] : "" ?>">
                         </div>
                         <div>
                             <label for="txtCorreo">Correo:</label><br>
                             <input type="email" name="txtCorreo" id="txtCorreo" required style="width:100%" class="border"
-                                    value="<?php echo isset($_GET["id"]) ? $aClientes[$_GET["id"]]["correo"] : "" ?>">
+                                    value="<?php echo isset($_GET["id"]) && !isset($_GET["do"]) ? $aClientes[$_GET["id"]]["correo"] : "" ?>">
                         </div>
                         <div>
                             <label for="archivo">Archivo adjunto:</label><br>
@@ -126,21 +127,23 @@
                     </form>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <table class="table table-hover border">
                     <tr>
                         <th>Imagen</th>
                         <th>DNI</th>
                         <th>Nombre</th>
+                        <th>Telefono</th>
                         <th>Correo</th>
                         <th>Acciones</th>
                     </tr>
                     <?php
                         foreach($aClientes as $key => $cliente){ ?>
                             <tr>
-                                <td><img class="img-fluid border shadow" src="archivos/<?php echo $cliente["imagen"]?>"></td>
+                                <td><img class="img-fluid img-thumbnail border shadow" src="imagenes/<?php echo $cliente["imagen"]?>"></td>
                                 <td><?php echo $cliente["dni"] ?></td>
                                 <td><?php echo mb_strtoupper($cliente["nombre"],"UTF-8") ?></td>
+                                <td><?php echo $cliente["telefono"] ?></td>
                                 <td><?php echo $cliente["correo"] ?></td>
                                 <td class="text-center"><a href="abm-clientes.php?id=<?php echo $key ?>"><i class="fas fa-edit"></i></a>
                                     <a href="abm-clientes.php?id=<?php echo $key ?>&do=eliminar"><i class="fas fa-trash-alt"></i></a>
