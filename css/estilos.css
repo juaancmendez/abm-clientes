@@ -3,4 +3,24 @@
         font-size: 12px !important;
     }
 
-  }
+}
+
+@media (orientation: portrait) {
+    body{
+        background-image: url(../img/fondo-contacto-mobile.png);
+    }
+}
+
+@media (orientation: landscape) {
+    body{
+        background-image: url(../img/fondo-contacto.png);
+    }
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

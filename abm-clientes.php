@@ -140,13 +140,13 @@
                     <?php
                         foreach($aClientes as $key => $cliente){ ?>
                             <tr>
-                                <td><img class="img-fluid img-thumbnail border shadow" src="imagenes/<?php echo $cliente["imagen"]?>"></td>
+                                <td class="text-center"><img style="max-width: 100%;height:50px;" class="img-fluid img-thumbnail border shadow" src="imagenes/<?php echo $cliente["imagen"]?>"></td>
                                 <td><?php echo $cliente["dni"] ?></td>
                                 <td><?php echo mb_strtoupper($cliente["nombre"],"UTF-8") ?></td>
                                 <td><?php echo $cliente["telefono"] ?></td>
                                 <td><?php echo $cliente["correo"] ?></td>
-                                <td class="text-center"><a href="abm-clientes.php?id=<?php echo $key ?>"><i class="fas fa-edit"></i></a>
-                                    <a href="abm-clientes.php?id=<?php echo $key ?>&do=eliminar"><i class="fas fa-trash-alt"></i></a>
+                                <td class="text-center"><a href="abm-clientes.php?id=<?php echo $key ?>"><i class="fas fa-edit" alt="Modificar" title="Modificar"></i></a>
+                                    <a href="abm-clientes.php?id=<?php echo $key ?>&do=eliminar"><i class="fas fa-trash-alt" alt="Eliminar" title="Eliminar"></i></a>
                                 </td>
                             </tr>
                     <?php } ?> 
