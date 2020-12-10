@@ -3,6 +3,13 @@
         font-size: 12px !important;
     }
 
+    h1{
+        font-size: 30px !important;
+    }
+
+    i{
+        font-size: 20px !important;
+    }
 }
 
 @media (orientation: portrait) {
@@ -23,4 +30,31 @@ body{
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+h1 a{
+    color: #e20000;
+    text-decoration: none;
+}
+
+h1 a:hover{
+    color: blueviolet;
+    text-decoration: none;
+}
+
+button{
+    background-color: #e20000 !important;
+    color: white !important;
+}
+
+button:hover{
+    background-color: blueviolet !important;
+}
+
+i{
+    color: blueviolet;
+}
+
+i:hover{
+    color: #e20000;
 }

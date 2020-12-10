@@ -90,7 +90,7 @@
     <div class="container">
         <div class="row mt-3">
             <div class="col-12 text-center">
-                <h1><a href="abm-clientes.php" class="text-dark text-center">Registro de clientes</a></h1>
+                <h1><a href="abm-clientes.php" class="text-center">Registro de clientes</a></h1>
             </div>
         </div>
         <div class="row mt-3">
@@ -119,10 +119,10 @@
                         </div>
                         <div>
                             <label for="archivo">Archivo adjunto:</label><br>
-                            <input type="file" name="archivo" id="archivo" style="width:100%" class="border">
+                            <input type="file" name="archivo" id="archivo" style="width:100%" class="border bg-white">
                         </div>
                         <div>
-                            <input type="submit" value="Guardar" class="btn text-white bg-primary mt-3">    
+                            <button type="submit" class="btn mt-3">Guardar</button>    
                         </div>
                     </form>
                 </div>
